@@ -1,0 +1,16 @@
+services:
+  mariadb:
+    container_name: docker-mine-mariadb
+    build:
+      dockerfile: docker/mariadb/Dockerfile
+      context: .
+  wordpress:
+    container_name: docker-mine-wordpress
+    build:
+      dockerfile: docker/wordpress/Dockerfile
+      context: .
+  nginx:
+    container_name: docker-mine-nginx
+    build:
+      dockerfile: docker/nginx/Dockerfile
+      context: .
