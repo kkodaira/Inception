@@ -1,16 +1,36 @@
+version: '3'
+
+volumes:
+    data: {}
 services:
-  mariadb:
-    container_name: docker-mine-mariadb
-    build:
-      dockerfile: docker/mariadb/Dockerfile
-      context: .
-  wordpress:
-    container_name: docker-mine-wordpress
-    build:
-      dockerfile: docker/wordpress/Dockerfile
-      context: .
-  nginx:
-    container_name: docker-mine-nginx
-    build:
-      dockerfile: docker/nginx/Dockerfile
-      context: .
+    mariadb:
+        image: debian:buster
+        restart: always
+        expose:
+            - "3306"
+        networks:
+            - intra
+        tty: true
+    nginx:
+        image: debian:buster
+        restart: always
+        ports:
+            - "443:443"
+        volumes:
+            - data:/var/www/html
+        networks:
+            - intra
+        tty: true
+    wordpress:
+        image: debian:buster
+        restart: always
+        volumes:
+            - data:/var/www/html
+        expose: 
+            - "9000"
+        networks:
+            - intra
+        tty: true
+networks:
+    intra:
+        driver: bridge
