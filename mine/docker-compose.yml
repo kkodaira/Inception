@@ -27,10 +27,9 @@ services:
             - intra
         tty: true
     wordpress:
-        image: debian:buster
-        # build:
-        #     dockerfile: docker/wordpress/Dockerfile
-        #     context: .
+        build:
+            dockerfile: docker/wordpress/Dockerfile
+            context: .
         restart: always
         volumes:
             - data:/var/www/html
