@@ -4,7 +4,9 @@ volumes:
     data: {}
 services:
     mariadb:
-        image: debian:buster
+        build:
+            dockerfile: docker/mariadb/Dockerfile
+            context: .
         restart: always
         expose:
             - "3306"
@@ -13,6 +15,9 @@ services:
         tty: true
     nginx:
         image: debian:buster
+        # build:
+        #     dockerfile: docker/nginx/Dockerfile
+        #     context: .
         restart: always
         ports:
             - "443:443"
@@ -23,6 +28,9 @@ services:
         tty: true
     wordpress:
         image: debian:buster
+        # build:
+        #     dockerfile: docker/wordpress/Dockerfile
+        #     context: .
         restart: always
         volumes:
             - data:/var/www/html
