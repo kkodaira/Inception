@@ -32,6 +32,21 @@ services:
         networks:
             - mynet
         restart: always
+    nginx:
+        container: nginx
+        build: ./docker/nginx/.
+        image: nginx:mine
+        ports:
+            - "443:443"
+        depends_on:
+            - wordpress
+        volumes:
+            - wordpress:/var/www/html
+        networks:
+            - mynet
+        env_file:
+            - .env
+        restart: always
     wordpress:
         container_name: wordpress
         build: ./docker/wordpress/.

@@ -1,9 +1,12 @@
-FROM debian:bookworm
+FROM debian:buster
 
-RUN apt -y update && apt install -y nginx && apt install openssl -y
+RUN apt update && \
+	apt install -y nginx openssl && \
+	apt clean && \
+	mkdir /etc/nginx/ssl && \
+	openssl req -new -newkey rsa:2048 -days 365 -nodes \
+	-x509 -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=localhost" \
+	-keyout /etc/nginx/ssl/nginx-selfsigned.key \
+	-out /etc/nginx/ssl/nginx-selfsigned.crt
 
-COPY ./files/setup.sh /
-
-RUN chmod +x /setup.sh
-
-CMD ["/setup.sh"]
+COPY ./docker/nginx/my.conf /etc/nginx/conf.d/my.conf
