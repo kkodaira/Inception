@@ -1,43 +1,27 @@
 version: '3'
 
 volumes:
-    data: {}
+    mariadb:
+        name: mariadb
+        driver: local
+        driver_opts:
+            device: /home/kkodaira/42cursus/Inception/mine/docker/mariadb
+            o: bind
+            type: none
+
+networks:
+    mynet:
+        name: mynet
+
 services:
     mariadb:
-        build:
-            dockerfile: docker/mariadb/Dockerfile
-            context: .
-        restart: always
-        expose:
-            - "3306"
-        networks:
-            - intra
-        tty: true
-    nginx:
-        image: debian:buster
-        # build:
-        #     dockerfile: docker/nginx/Dockerfile
-        #     context: .
-        restart: always
-        ports:
-            - "443:443"
+        container_name: mariadb
+        build: ./docker/mariadb/.
+        image: mariadb:mine
         volumes:
-            - data:/var/www/html
+            - mariadb:/var/lib/mysql
+        env_file:
+            - .env
         networks:
-            - intra
-        tty: true
-    wordpress:
-        build:
-            dockerfile: docker/wordpress/Dockerfile
-            context: .
+            - mynet
         restart: always
-        volumes:
-            - data:/var/www/html
-        expose: 
-            - "9000"
-        networks:
-            - intra
-        tty: true
-networks:
-    intra:
-        driver: bridge
