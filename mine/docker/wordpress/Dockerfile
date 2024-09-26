@@ -1,12 +1,15 @@
 FROM debian:buster
 
-RUN apt update && \
-	apt install -y nginx openssl && \
-	apt clean && \
-	mkdir /etc/nginx/ssl && \
-	openssl req -new -newkey rsa:2048 -days 365 -nodes \
-	-x509 -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=localhost" \
-	-keyout /etc/nginx/ssl/nginx-selfsigned.key \
-	-out /etc/nginx/ssl/nginx-selfsigned.crt
+RUN apt update -y
 
-COPY ./docker/nginx/my.conf /etc/nginx/conf.d/my.conf
+RUN apt install php-fpm php-mysql -y
+
+RUN apt install curl -y
+
+# COPY ./files/setup.sh /
+
+# COPY ./files/wp-config.php /
+
+# RUN chmod +x /setup.sh
+
+# CMD ["/setup.sh"]

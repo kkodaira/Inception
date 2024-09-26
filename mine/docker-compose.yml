@@ -33,7 +33,7 @@ services:
             - mynet
         restart: always
     nginx:
-        container: nginx
+        container_name: nginx
         build: ./docker/nginx/.
         image: nginx:mine
         ports:
