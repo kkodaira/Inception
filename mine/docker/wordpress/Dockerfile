@@ -1,22 +1,7 @@
-FROM debian:buster
+FROM debian:bookworm
 
-RUN apt-get update -y && \
-	apt-get upgrade -y && \
-	apt-get -y install \
-	php7.3 \
-	php-fpm \
-	php-cli \
-	wget \
-	curl \
-	php-mysql \
-	php-mbstring \
-	php-xml \
-	sendmail \
-	vim
+RUN apt -y update && apt install -y nginx && apt install openssl -y
 
-RUN wget https://wordpress.org/latest.tar.gz && \
-	tar -xvf latest.tar.gz && \
-	mv /wordpress/* /var/www/html/
-	#&& \
-	# chown -R www-data:www-data /var/www/html/ && \
-	# rm -r /wordpress latest.tar.gz
+COPY ./files/setup.sh /
+
+CMD ["/setup.sh"]
