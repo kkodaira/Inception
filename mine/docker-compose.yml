@@ -5,14 +5,14 @@ volumes:
         name: mariadb
         driver: local
         driver_opts:
-            device: /home/kkodaira/42cursus/Inception/mine/docker/mariadb
+            device: ${PWD}/mariadb
             o: bind
             type: none
     wordpress:
         name: wordpress
         driver: local
         driver_opts:
-            device: /home/kkodaira/42cursus/Inception/mine/docker/wordpress
+            device: ${PWD}/wordpress
             o: bind
             type: none
 
@@ -23,7 +23,7 @@ networks:
 services:
     mariadb:
         container_name: mariadb
-        build: ./docker/mariadb/.
+        build: ./docker/mariadb/
         image: mariadb:mine
         volumes:
             - mariadb:/var/lib/mysql
@@ -34,7 +34,7 @@ services:
         restart: always
     nginx:
         container_name: nginx
-        build: ./docker/nginx/.
+        build: ./docker/nginx/
         image: nginx:mine
         ports:
             - "443:443"
@@ -49,7 +49,7 @@ services:
         restart: always
     wordpress:
         container_name: wordpress
-        build: ./docker/wordpress/.
+        build: ./docker/wordpress/
         image: wordpress:mine
         depends_on:
             - mariadb
