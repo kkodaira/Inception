@@ -9,7 +9,7 @@ server { //https用の設定
 	listen 443 ssl;
 	listen [::]:443 ssl;
 	
-	#server_name www.$DOMAIN_NAME $DOMAIN_NAME;
+	#server_name www.$DOMAIN_NAME;
 	
 	ssl_certificate $CERTS_;
 	ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;" \
