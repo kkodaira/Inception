@@ -26,7 +26,7 @@ services:
         build: ./docker/mariadb/
         image: mariadb:mine
         volumes:
-            - mariadb:/var/lib/mysql
+            - ./docker/mariadb/volume:/var/lib/mysql
         env_file:
             - .env
         networks:
@@ -41,7 +41,7 @@ services:
         depends_on:
             - wordpress
         volumes:
-            - wordpress:/var/www/html
+            - ./docker/wordpress/volume:/var/www/html
         networks:
             - mynet
         env_file:
@@ -54,7 +54,7 @@ services:
         depends_on:
             - mariadb
         volumes:
-            - wordpress:/var/www/html
+            - ./docker/wordpress/volume:/var/www/html
         env_file:
             - .env
         networks:
