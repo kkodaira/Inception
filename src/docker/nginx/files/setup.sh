@@ -5,18 +5,18 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 -out $CERTS_ -subj "/C=JP/L=TK/O=42/OU=student/CN=kkodaira.42.jp" \
 
 echo "
-server { //https用の設定
+server { #https用の設定
 	listen 443 ssl;
 	listen [::]:443 ssl;
 	
-	#server_name www.$DOMAIN_NAME;
+	server_name www.$DOMAIN_NAME $DOMAIN_NAME;
 	
 	ssl_certificate $CERTS_;
 	ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;" \
 > /etc/nginx/sites-available/default
 
 echo '
-	ssl_protocols TLSv1.3;
+	ssl_protocols TLSv1.2 TLSv1.3;
 	
 	index index.php;
 	root /var/www/html;
