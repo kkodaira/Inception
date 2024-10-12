@@ -1,12 +1,9 @@
 all:
-	sudo docker compose -f ./src/docker-compose.yml up --build -d
+	docker-compose -f ./src/docker-compose.yml up --build
 
 clean:
-	sudo docker compose -f ./src/docker-compose.yml down
-
-rmv:
-	sudo docker compose volume rm mariadb wordpress
+	docker-compose -f ./src/docker-compose.yml down -v
 
 re: clean all
 
-.PHONY: all clean rmv re
+.PHONY: all clean re

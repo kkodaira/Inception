@@ -1,12 +1,4 @@
 volumes:
-    # mariadb:
-    #     name: mariadb
-    #     driver: local
-    #     driver_opts:
-    #         # device: /home/kkodaira/42cursus/Inception/mine/docker/mariadb
-    #         device: /Users/kai11/42tokyo/Inception/mine/src/docker/mariadb/volume
-    #         o: bind
-    #         type: none
     wordpress:
         name: wordpress
         driver: local
@@ -15,23 +7,20 @@ volumes:
             device: /Users/kai11/42tokyo/Inception/mine/src/docker/wordpress/volume
             o: bind
             type: none
+    mariadb:
+        name: mariadb
+        driver: local
+        driver_opts:
+            # device: /home/kkodaira/42cursus/Inception/mine/docker/mariadb
+            device: /Users/kai11/42tokyo/Inception/mine/src/docker/mariadb/volume
+            o: bind
+            type: none
 
 networks:
     mynet:
         name: mynet
 
 services:
-    mariadb:
-        container_name: mariadb
-        build: ./docker/mariadb/
-        image: mariadb:mine
-        volumes:
-            - ./docker/mariadb/volume:/var/lib/mysql
-        env_file:
-            - .env
-        networks:
-            - mynet
-        restart: always
     nginx:
         container_name: nginx
         build: ./docker/nginx/
@@ -41,7 +30,7 @@ services:
         depends_on:
             - wordpress
         volumes:
-            - ./docker/wordpress/volume:/var/www/html
+            - wordpress:/var/www/html
         networks:
             - mynet
         env_file:
@@ -54,7 +43,18 @@ services:
         depends_on:
             - mariadb
         volumes:
-            - ./docker/wordpress/volume:/var/www/html
+            - wordpress:/var/www/html
+        env_file:
+            - .env
+        networks:
+            - mynet
+        restart: always
+    mariadb:
+        container_name: mariadb
+        build: ./docker/mariadb/
+        image: mariadb:mine
+        volumes:
+            - mariadb:/var/lib/mysql
         env_file:
             - .env
         networks:
